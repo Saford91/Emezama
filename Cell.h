@@ -1,13 +1,11 @@
 #ifndef CELL_H
 #define CELL_H
 
-#include "Wall.h"
-
 class Cell {
-    Wall* northWall;
-    Wall* eastWall;
-    Wall* southWall;
-    Wall* westWall;
+    bool northWall;
+    bool eastWall;
+    bool southWall;
+    bool westWall;
     bool beenVisited;
   public:
     // Constructors

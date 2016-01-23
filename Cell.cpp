@@ -1,44 +1,38 @@
-// Class to represent one cell in a maze
-
 #include "Cell.h"
 #include "debug.h"
 
 // Constructors
 Cell::Cell() {
-  northWall = new Wall(true);
-  eastWall  = new Wall(true);
-  southWall = new Wall(true);
-  westWall  = new Wall(true);
+  northWall = true;
+  eastWall  = true;
+  southWall = true;
+  westWall  = true;
   beenVisited = false;
 }
 Cell::Cell(Cell* oldCell) {
-  northWall = new Wall(oldCell->north());
-  eastWall  = new Wall(oldCell->east());
-  southWall = new Wall(oldCell->south());
-  westWall  = new Wall(oldCell->west());
+  northWall = oldCell->north();
+  eastWall  = oldCell->east();
+  southWall = oldCell->south();
+  westWall  = oldCell->west();
   beenVisited = oldCell->visited();
 }
 
 // Deconstructor
 Cell::~Cell() {
-  if ( northWall ) delete northWall;
-  if ( eastWall  ) delete eastWall;
-  if ( southWall ) delete southWall;
-  if ( westWall  ) delete westWall;
 }
 
 // Getters
 bool Cell::north() {
-  return northWall->isUp();
+  return northWall;
 }
 bool Cell::east() {
-  return eastWall->isUp();
+  return eastWall;
 }
 bool Cell::south() {
-  return southWall->isUp();
+  return southWall;
 }
 bool Cell::west() {
-  return westWall->isUp();
+  return westWall;
 }
 bool Cell::visited() {
   return beenVisited;
@@ -46,16 +40,16 @@ bool Cell::visited() {
 
 // Setters
 void Cell::setNorth(bool u) {
-  northWall->set(u);
+  northWall = u;
 }
 void Cell::setEast(bool u) {
-  eastWall->set(u);
+  eastWall = u;
 }
 void Cell::setSouth(bool u) {
-  southWall->set(u);
+  southWall = u;
 }
 void Cell::setWest(bool u) {
-  westWall->set(u);
+  westWall = u;
 }
 void Cell::setVisited() {
   setVisited(true);

@@ -1,8 +1,8 @@
 CXX      = g++
 CXXFLAGS = -Wall
 CXXLIBS  = -lncurses
-DEPS     = Wall.h Cell.h Maze.h debug.h Player.h Emezama.h Window.h makefile
-OBJS     = Maze.o Wall.o Cell.o Player.o main.o Emezama.o Window.o
+DEPS     = Cell.h Maze.h debug.h Player.h Emezama.h Window.h makefile
+OBJS     = Maze.o Cell.o Player.o main.o Emezama.o Window.o
 PROGNAME = Emezama
 
 all: $(PROGNAME)

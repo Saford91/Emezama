@@ -1,9 +1,3 @@
-/**
- * Emezama! V0.1
- * A maze game
- * By Steven Ford
- */
-
 #include <stdlib.h>
 #include <ncurses.h>
 #include <signal.h>
