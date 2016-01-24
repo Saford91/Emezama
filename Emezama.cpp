@@ -129,4 +129,3 @@ bool Emezama::run(unsigned int speed) {
 void Emezama::quit() {
   endwin();
 }
-

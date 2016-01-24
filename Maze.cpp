@@ -1,3 +1,10 @@
+/* Name: Maze.cpp
+ * 
+ * Description:
+ *   This class represents a Maze object. The Cell class is utilized in this
+ *   class. This class is used in the Ezemama game class.
+ */
+
 #include <time.h>
 #include <stdlib.h>
 #include <ncurses.h>
@@ -159,7 +166,7 @@ bool Maze::breakNorth(){
   // Break the northern wall
   grid[pos.x][pos.y]->setNorth(false);
   #ifdef _DEBUG
-  drawCell(pos.x, pos.y);
+  renderCell(pos.x, pos.y);
   #endif
   // Move to now cell
   pos.y++;
@@ -176,7 +183,7 @@ bool Maze::breakEast(){
   // Break eastern wall
   grid[pos.x][pos.y]->setEast(false);
   #ifdef _DEBUG
-  drawCell(pos.x, pos.y);
+  renderCell(pos.x, pos.y);
   #endif
   // Move east
   pos.x++;
@@ -193,7 +200,7 @@ bool Maze::breakSouth(){
   // Break Southern Wall
   grid[pos.x][pos.y]->setSouth(false);
   #ifdef _DEBUG
-  drawCell(pos.x, pos.y);
+  renderCell(pos.x, pos.y);
   #endif
   // Move south
   pos.y--;
@@ -210,7 +217,7 @@ bool Maze::breakWest(){
   // Break the western wall
   grid[pos.x][pos.y]->setWest(false);
   #ifdef _DEBUG
-  drawCell(pos.x, pos.y);
+  renderCell(pos.x, pos.y);
   #endif
   // Move west
   pos.x--;
@@ -288,6 +295,10 @@ void Maze::initialize() {
       grid[i][j] = new Cell();
     }
   }
+
+  #ifdef _DEBUG
+  screen.resize((width * 2) + 3,  std::vector< bool >((height * 2) + 3, true));
+  #endif
   
   // This array, paired with our directions definitions will track our
   // movement options
@@ -333,7 +344,7 @@ void Maze::initialize() {
     options[WEST]  = testWest();
 
     #ifdef _DEBUG
-    drawCell(pos.x, pos.y);
+    renderCell(pos.x, pos.y);
     #endif
 
     // If we have no options, or one wall left, backtrack
@@ -433,15 +444,41 @@ void Maze::drawBorder() {
   attrset(COLOR_PAIR(COLOR_NORM));
 
 }
+#ifndef _DEBUG
 void Maze::drawMaze() {
   drawBackground();
+#else
+void Maze::renderMaze() {
+#endif
   for ( int i = 0; i < width; i++ ) {
     for ( int j = 0; j < height; j++ ) {
+      #ifndef _DEBUG
       drawCell(i, j);
+      #else
+      renderCell(i, j);
+      #endif
     }
   }
+  #ifndef _DEBUG
   drawBorder();
+  #endif
 }
+#ifdef _DEBUG
+void Maze::drawMaze() {
+  for ( int i = 0; i < (2 * width); i++ ) {
+    for ( int j = (2 * height) - 1; j >= 0; j-- ) {
+      if ( screen[i][(height * 2) - j] ) {
+        attrset(COLOR_PAIR(COLOR_WALL));
+      } else {
+        attrset(COLOR_PAIR(COLOR_PATH));
+      }
+      mvprintw(j+2, i+1, " ");
+      attrset(COLOR_PAIR(COLOR_NORM));
+    }
+  }
+}
+#endif
+
 void Maze::printMaze() {
   for ( int i = 0; i < width; i++ ) {
     for ( int j = 0; j < height; j++ ) {
@@ -449,7 +486,11 @@ void Maze::printMaze() {
     }
   }
 }
+#ifndef _DEBUG
 void Maze::drawCell(int x, int y) {
+#else
+void Maze::renderCell(int x, int y) {
+#endif
   int pos_x;
   int pos_y;
   pos_x = transX(x);
@@ -459,17 +500,32 @@ void Maze::drawCell(int x, int y) {
     // If this cell has no walls, dont bother drawing it
     return;
   }
+  #ifndef _DEBUG
   attrset(COLOR_PAIR(COLOR_WALL));
   mvprintw(pos_y - 1, pos_x - 1, "   ");
   mvprintw(pos_y, pos_x + 1, " ");
+  #else
+  //screen[ ( 2 * x ) ][ ( 2 * y ) + 2] = true;
+  screen[ ( 2 * x ) + 1 ][ ( 2 * y ) + 1 ] = false;
+  //screen[ ( 2 * x ) + 2 ][ ( 2 * y ) + 2 ] = true;
+  //screen[ ( 2 * x ) + 2 ][ ( 2 * y ) ] = true;
+  #endif
   attrset(COLOR_PAIR(COLOR_NORM));
   if ( !grid[x][y]->north() ) {
+    #ifndef _DEBUG
     attrset(COLOR_PAIR(COLOR_PATH));
     mvprintw(pos_y - 1, pos_x, " ");
+    #else
+    screen[ ( 2 * x ) + 1][ ( 2 * y ) + 2] = false;
+    #endif
   }
   if ( !grid[x][y]->east() ) {
+    #ifndef _DEBUG
     attrset(COLOR_PAIR(COLOR_PATH));
     mvprintw(pos_y, pos_x + 1, " ");
+    #else
+    screen[ ( 2 * x ) + 2 ][ ( 2 * y ) + 1] = false;
+    #endif
   }
   attrset(COLOR_PAIR(COLOR_NORM));
 }

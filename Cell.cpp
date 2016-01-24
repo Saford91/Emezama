@@ -1,3 +1,11 @@
+/*  Name: Cell.cpp
+ *
+ *  Description: 
+ *    This class represents one cell in a maze. Four booleans represent each
+ *    wall of the cell, and one boolean represeents whether or not the cell
+ *    has been visited.
+ */
+
 #include "Cell.h"
 #include "debug.h"
 

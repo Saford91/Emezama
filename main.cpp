@@ -4,19 +4,19 @@
 #include "Emezama.h"
 #include "debug.h"
 
-Emezama* myEmezama;
+Emezama* game;
 
 int main(int argc, char *argv[])
 {	
-  myEmezama = new Emezama();
+  game = new Emezama();
 
   //myEmezama->title();
 
-  while (myEmezama->run(1)) {};
+  while (game->run(1)) {};
 
-  myEmezama->quit();
+  game->quit();
 
-  delete myEmezama;
+  delete game;
 
   return 0;
 

@@ -23,6 +23,9 @@ class Maze {
     } pos;
     std::vector<position> pos_history;
     std::vector< std::vector<Cell*> > grid;
+    #ifdef _DEBUG
+    std::vector< std::vector<bool> > screen;
+    #endif
     bool initialized;
     bool seeded;
   public:
@@ -74,10 +77,17 @@ class Maze {
     // Other Methods
     void initialize();
     void initialize(int x, int y);
+    #ifndef _DEBUG
     void drawCell(int x, int y);
+    #else
+    void renderCell(int x, int y);
+    #endif
     void drawBackground();
     void drawBorder();
     void drawMaze();
+    #ifdef _DEBUG
+    void renderMaze();
+    #endif
     void printMaze();
     void printPosStack();
     void seed();
